@@ -12,8 +12,17 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
+
+#############################################
+# Data Sources
+#############################################
+
+# This asks AWS:
+# "What availability zones exist in this region?"
+
+data "aws_availability_zones" "available" {}
 
 #############################################
 # VPC (simple, same as prior lab)
@@ -36,7 +45,7 @@ resource "aws_vpc" "lab_vpc" {
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.lab_vpc.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
   tags = {
@@ -86,7 +95,7 @@ resource "aws_security_group" "web_admin_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["107.190.254.120/32"]
+    cidr_blocks = [var.my_ip_cidr]
   }
 
   # Inbound rule: HTTPS from anywhere (common for web endpoints)
@@ -95,7 +104,7 @@ resource "aws_security_group" "web_admin_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_ip_cidr]
   }
 
   # Outbound: allow all (default typical behavior)

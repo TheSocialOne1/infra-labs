@@ -20,3 +20,9 @@ terraform apply
 
 ## Cleanup
 terraform destroy
+
+## Architecture Diagram
+
+The infrastructure created by this Terraform lab:
+
+![Terraform Architecture](infrastructure.png)
