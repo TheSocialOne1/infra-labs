@@ -14,7 +14,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # Validate each lab folder (no backend, no AWS calls)
+      # Validate each lab folder (no backend, no AWS calls, no cost)
       - name: Init/Format/Validate aws-vpc-lab
         working-directory: aws-vpc-lab
         run: |
