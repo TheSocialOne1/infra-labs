@@ -1,0 +1,10 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+
+# macOS
+.DS_Store
